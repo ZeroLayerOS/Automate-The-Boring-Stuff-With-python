@@ -9,7 +9,7 @@ A list is an ordered collection of items. It can hold letters, digits,
 names, or anything else, and the items don't have to be related to each
 other. Since a list usually holds more than one element, it's good practice
 to give it a plural name (e.g. `letters`, `digits`, `names`).
-
+WORKING WITH LISTS
 In Python, square brackets `[]` define a list, and elements are separated
 by commas.
 """
