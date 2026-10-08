@@ -231,4 +231,82 @@ print("\nModified dimensions:")
 for dimension in dimensions:
     print(dimension)
 
-# A tuple with a single item needs a trailing comma: (5,) is a tuple, (5) is just an int.
+# --- Single-item tuples ---
+# The comma is what creates a tuple, not the parentheses.
+# A tuple with a single item needs a trailing comma.
+single = (5,)  # tuple with one item
+not_a_tuple = 5  # just the integer 5 in grouping parentheses
+print(type(single))  # <class 'tuple'>
+print(type(not_a_tuple))  # <class 'int'>
+
+
+# ------------------------------------------------------------------
+# 9. Tuple unpacking
+# ------------------------------------------------------------------
+# Unpacking assigns each item of a sequence to its own variable in one
+# statement. The number of variables must match the number of items.
+dimensions = (400, 100)
+width, height = dimensions
+print(width)  # 400
+print(height)  # 100
+
+# Unpacking is also how you swap two variables without a temporary one.
+a, b = 1, 2
+a, b = b, a
+print(a, b)  # 2 1
+
+# Unpacking is the mechanism behind enumerate() and zip() below.
+
+
+# ------------------------------------------------------------------
+# 10. Looping with enumerate()
+# ------------------------------------------------------------------
+# enumerate(iterable, start=0) yields (index, item) pairs, so you get the
+# position and the value at the same time.
+names = ["ziad", "ali", "mahmoud"]
+
+# Avoid: manual indexing with range(len(...)) is longer and easier to get wrong.
+# for i in range(len(names)):
+#     print(i, names[i])
+
+# Preferred: each (index, item) tuple is unpacked into `index` and `name`.
+for index, name in enumerate(names):
+    print(index, name.title())
+# 0 Ziad
+# 1 Ali
+# 2 Mahmoud
+
+# Use `start` to change the first number, e.g. for human-friendly numbering.
+for number, name in enumerate(names, start=1):
+    print(f"{number}. {name.title()}")
+# 1. Ziad
+# 2. Ali
+# 3. Mahmoud
+
+
+# ------------------------------------------------------------------
+# 11. Looping over several lists with zip()
+# ------------------------------------------------------------------
+# zip(a, b, ...) pairs up items from several iterables by position and
+# yields them as tuples, which the loop unpacks.
+ages = [20, 22, 21]
+
+for name, age in zip(names, ages):
+    print(f"{name.title()} is {age} years old.")
+# Ziad is 20 years old.
+# Ali is 22 years old.
+# Mahmoud is 21 years old.
+
+# Common use: build a dictionary from two lists (dictionaries come later).
+print(dict(zip(names, ages)))  # {'ziad': 20, 'ali': 22, 'mahmoud': 21}
+
+# Warning: zip() stops at the SHORTEST iterable and silently ignores the rest.
+print(list(zip([1, 2, 3], ["a", "b"])))  # [(1, 'a'), (2, 'b')]
+
+# Since Python 3.10, zip(..., strict=True) raises ValueError if the lengths
+# differ, which catches this kind of bug early.
+# list(zip([1, 2, 3], ["a", "b"], strict=True))  # ValueError
+
+# enumerate() and zip() can be combined.
+for index, (name, age) in enumerate(zip(names, ages), start=1):
+    print(f"{index}. {name.title()} ({age})")
